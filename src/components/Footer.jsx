@@ -52,7 +52,7 @@ export default function Footer() {
           <h4 className="text-xl font-semibold mb-3">संपर्क जानकारी</h4>
           <p className="flex items-center gap-2 text-sm mb-2">
             <FaPhoneAlt className="text-red-500" />
-            <span className="underline cursor-pointer">+91-7379351045</span>
+            <span className="underline cursor-pointer">+91-7379351042</span>
           </p>
           <a
             href="https://www.google.com/maps"
