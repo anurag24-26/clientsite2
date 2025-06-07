@@ -26,10 +26,10 @@ export default function Contact() {
             <p>
               <strong>संपर्क नंबर:</strong>{" "}
               <a
-                href="tel:+917379351045"
+                href="tel:+917379351042"
                 className="text-red-600 underline hover:text-red-700"
               >
-                +91 7379351045
+                +917379351042
               </a>
             </p>
           </div>
