@@ -69,7 +69,7 @@ export default function Hero() {
       >
         <FaPhoneAlt className="text-blue-700" />
         संपर्क करें:{" "}
-        <span className="text-blue-700 font-semibold">+91 7379351045</span>
+        <span className="text-blue-700 font-semibold">+917379351042</span>
       </motion.p>
 
       {/* Buttons */}
