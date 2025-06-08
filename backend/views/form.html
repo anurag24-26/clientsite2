@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Upload Student Results</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://cdn.tailwindcss.com"></script>
+  </head>
+  <body
+    class="bg-gradient-to-br from-red-50 to-yellow-100 min-h-screen py-8 px-4"
+  >
+    <div
+      class="max-w-5xl mx-auto bg-white shadow-xl rounded-xl p-6 sm:p-8 overflow-auto"
+    >
+      <h1 class="text-3xl font-bold text-center text-red-600 mb-8">
+        📋 Upload Multiple Student Results
+      </h1>
+
+      <form action="/submit" method="POST">
+        <div id="students" class="space-y-8">
+          <!-- Student 1 -->
+          <div class="student border border-red-300 rounded-lg p-5 bg-red-50">
+            <h2 class="text-xl font-semibold text-red-700 mb-4">Student 1</h2>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <!-- Name & Class -->
+              <div>
+                <label class="block text-gray-700">Name</label>
+                <input
+                  type="text"
+                  name="students[0][name]"
+                  class="w-full mt-1 p-2 border rounded"
+                />
+              </div>
+              <div>
+                <label class="block text-gray-700">Class</label>
+                <input
+                  type="text"
+                  name="students[0][class]"
+                  class="w-full mt-1 p-2 border rounded"
+                />
+              </div>
+
+              <!-- Physics -->
+              <div>
+                <label class="block text-gray-700">Physics</label>
+                <input
+                  type="number"
+                  name="students[0][marks][physics]"
+                  class="w-full mt-1 p-2 border rounded"
+                />
+              </div>
+              <div>
+                <label class="block text-gray-700">Physics Max</label>
+                <input
+                  type="number"
+                  name="students[0][maxMarks][physics]"
+                  class="w-full mt-1 p-2 border rounded"
+                />
+              </div>
+
+              <!-- Math -->
+              <div>
+                <label class="block text-gray-700">Math</label>
+                <input
+                  type="number"
+                  name="students[0][marks][math]"
+                  class="w-full mt-1 p-2 border rounded"
+                />
+              </div>
+              <div>
+                <label class="block text-gray-700">Math Max</label>
+                <input
+                  type="number"
+                  name="students[0][maxMarks][math]"
+                  class="w-full mt-1 p-2 border rounded"
+                />
+              </div>
+
+              <!-- English -->
+              <div>
+                <label class="block text-gray-700">English</label>
+                <input
+                  type="number"
+                  name="students[0][marks][english]"
+                  class="w-full mt-1 p-2 border rounded"
+                />
+              </div>
+              <div>
+                <label class="block text-gray-700">English Max</label>
+                <input
+                  type="number"
+                  name="students[0][maxMarks][english]"
+                  class="w-full mt-1 p-2 border rounded"
+                />
+              </div>
+
+              <!-- Hindi -->
+              <div>
+                <label class="block text-gray-700">Hindi</label>
+                <input
+                  type="number"
+                  name="students[0][marks][hindi]"
+                  class="w-full mt-1 p-2 border rounded"
+                />
+              </div>
+              <div>
+                <label class="block text-gray-700">Hindi Max</label>
+                <input
+                  type="number"
+                  name="students[0][maxMarks][hindi]"
+                  class="w-full mt-1 p-2 border rounded"
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Add Another Student Button -->
+        <div class="text-center mt-6">
+          <button
+            type="button"
+            onclick="addStudent()"
+            class="bg-yellow-400 hover:bg-yellow-500 text-white font-semibold py-2 px-4 rounded transition"
+          >
+            ➕ Add Another Student
+          </button>
+        </div>
+
+        <!-- Submit Button -->
+        <div class="text-center mt-8">
+          <button
+            type="submit"
+            class="bg-red-600 hover:bg-red-700 text-white text-lg font-bold py-3 px-6 rounded-lg shadow-lg transition"
+          >
+            ✅ Upload All Results
+          </button>
+        </div>
+      </form>
+    </div>
+
+    <script>
+      let count = 1;
+      function addStudent() {
+        const container = document.getElementById("students");
+
+        const student = document.createElement("div");
+        student.className =
+          "student border border-red-300 rounded-lg p-5 bg-red-50 mt-6";
+        student.innerHTML = `
+          <h2 class="text-xl font-semibold text-red-700 mb-4">Student ${
+            count + 1
+          }</h2>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div>
+              <label class="block text-gray-700">Name</label>
+              <input type="text" name="students[${count}][name]" class="w-full mt-1 p-2 border rounded" />
+            </div>
+            <div>
+              <label class="block text-gray-700">Class</label>
+              <input type="text" name="students[${count}][class]" class="w-full mt-1 p-2 border rounded" />
+            </div>
+            <div>
+              <label class="block text-gray-700">Physics</label>
+              <input type="number" name="students[${count}][marks][physics]" class="w-full mt-1 p-2 border rounded" />
+            </div>
+            <div>
+              <label class="block text-gray-700">Physics Max</label>
+              <input type="number" name="students[${count}][maxMarks][physics]" class="w-full mt-1 p-2 border rounded" />
+            </div>
+            <div>
+              <label class="block text-gray-700">Math</label>
+              <input type="number" name="students[${count}][marks][math]" class="w-full mt-1 p-2 border rounded" />
+            </div>
+            <div>
+              <label class="block text-gray-700">Math Max</label>
+              <input type="number" name="students[${count}][maxMarks][math]" class="w-full mt-1 p-2 border rounded" />
+            </div>
+            <div>
+              <label class="block text-gray-700">English</label>
+              <input type="number" name="students[${count}][marks][english]" class="w-full mt-1 p-2 border rounded" />
+            </div>
+            <div>
+              <label class="block text-gray-700">English Max</label>
+              <input type="number" name="students[${count}][maxMarks][english]" class="w-full mt-1 p-2 border rounded" />
+            </div>
+            <div>
+              <label class="block text-gray-700">Hindi</label>
+              <input type="number" name="students[${count}][marks][hindi]" class="w-full mt-1 p-2 border rounded" />
+            </div>
+            <div>
+              <label class="block text-gray-700">Hindi Max</label>
+              <input type="number" name="students[${count}][maxMarks][hindi]" class="w-full mt-1 p-2 border rounded" />
+            </div>
+          </div>
+        `;
+        container.appendChild(student);
+        count++;
+      }
+    </script>
+  </body>
+</html>
