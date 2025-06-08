@@ -64,7 +64,10 @@ export default function About() {
         </div>
         <div className="flex-1">
           <h3 className="text-2xl sm:text-4xl font-bold text-orange-600 mb-4">
-            निदेशक का संदेश - शुभम पांडेय
+            निर्देशक का संदेश - शुभम पांडेय,{" "}
+            <span className="text-gray-700 text-xl sm:text-2xl">
+              B.Sc., B.Ed.
+            </span>
           </h3>
           <p className="text-base sm:text-lg text-gray-700 leading-relaxed mb-4">
             सरस्वती कोचिंग सेंटर में, हमारा मानना है कि हर छात्र में कुछ खास
@@ -72,7 +75,7 @@ export default function About() {
             आत्मविश्वास और नैतिक मूल्यों को भी बढ़ावा देते हैं।
           </p>
           <p className="text-base sm:text-lg text-gray-700 leading-relaxed">
-            मैं, शुभम पांडेय, प्रबंध निदेशक के रूप में यह वादा करता हूँ कि हम
+            मैं, शुभम पांडेय, प्रबंध निर्देशक के रूप में यह वादा करता हूँ कि हम
             प्रत्येक छात्र को एक ऐसा माहौल प्रदान करेंगे जहाँ वह पूरी लगन से सीख
             सके और अपने सपनों को साकार कर सके।
           </p>
@@ -87,7 +90,7 @@ export default function About() {
         image={MissionImg}
       >
         <p>
-          सरस्वती कोचिंग सेंटर का मुख्य उद्देश्य कक्षा 3 से 12 (CBSE) और 9 से 12
+          सरस्वती कोचिंग सेंटर का मुख्य उद्देश्य कक्षा 1 से 12 (CBSE) और 9 से 12
           (UP बोर्ड) के छात्रों को गुणवत्ता-युक्त शिक्षा प्रदान करना है। हम
           व्यक्तिगत मार्गदर्शन, मूल्य आधारित शिक्षा और निरंतर मूल्यांकन में
           विश्वास करते हैं।
@@ -117,9 +120,8 @@ export default function About() {
         image={AchievementsImg}
       >
         <ul className="list-disc pl-4 space-y-2 text-base sm:text-lg text-gray-700">
-          <li>150+ छात्र देश के प्रमुख कॉलेजों में चयनित</li>
+          <li>40+ छात्र देश के प्रमुख कॉलेजों में चयनित</li>
           <li>CBSE और UP बोर्ड में 90%+ सफलता दर</li>
-          <li>NEET, JEE जैसे प्रतियोगी परीक्षाओं में सफलता</li>
         </ul>
       </AnimatedSection>
 
