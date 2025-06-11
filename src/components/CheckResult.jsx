@@ -14,7 +14,7 @@ export default function Result() {
     setError("");
     setResult(null);
     try {
-      const res = await axios.get("http://localhost:5000/api/student/check", {
+      const res = await axios.get("https://adminpanel-290v.onrender.com/api/student/check", {
         params: {
           name,
           class: studentClass,
