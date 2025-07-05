@@ -127,6 +127,7 @@ app.post("/submit", async (req, res) => {
 });
 // Delete student by roll number
 // DELETE /api/student?rollNo=123 OR ?name=John&class=10
+
 app.delete("/api/student", async (req, res) => {
   const { rollNo, name, class: studentClass } = req.query;
 

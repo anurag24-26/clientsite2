@@ -43,7 +43,7 @@
             s.innerHTML = `
               <div>
                 <p><strong>📛 Name:</strong> ${student.name}</p>
-                <p><strong>📘 Class:</strong> ${student.class}</p>
+                <p><strong>📘 Class:</strong> ${student.className}</p>
                 <p><strong>🎫 Roll No:</strong> ${student.rollNo || "N/A"}</p>
                 <p><strong>🎂 DOB:</strong> ${
                   student.dateOfBirth
@@ -52,12 +52,11 @@
                 }</p>
               </div>
               <button
-                onclick="deleteStudent(${
-                  student.rollNo || null
-                }, ${JSON.stringify(student.name)}, ${JSON.stringify(
-              student.class
-            )}, this)"
                 class="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded"
+                data-roll="${student.rollNo || ""}"
+                data-name="${student.name}"
+                data-class="${student.className}"
+                onclick="handleDeleteClick(this)"
               >
                 ❌ Delete
               </button>
@@ -66,8 +65,18 @@
           });
         } catch (err) {
           alert("❌ Failed to load students.");
+          console.error(err);
         }
       }
+
+      function handleDeleteClick(btn) {
+        const rollNo = btn.getAttribute("data-roll");
+        const name = btn.getAttribute("data-name");
+        const studentClass = btn.getAttribute("data-class");
+
+        deleteStudent(rollNo, name, studentClass, btn);
+      }
+
       async function deleteStudent(rollNo, name, studentClass, btn) {
         const confirmDelete = confirm(
           `Are you sure you want to delete ${name} (Class ${studentClass})?`
@@ -86,9 +95,8 @@
 
           let result = {};
           try {
-            result = await res.json(); // ✅ Will work if server sends valid JSON
+            result = await res.json();
           } catch {
-            // If response body is empty or invalid
             result.message = "❌ Unexpected response format.";
           }
 
