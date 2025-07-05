@@ -2,67 +2,210 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Student Admission</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            fontFamily: {
+              sans: ["Inter", "sans-serif"],
+            },
+          },
+        },
+      };
+    </script>
   </head>
   <body
-    class="bg-gradient-to-r from-yellow-50 to-red-100 min-h-screen py-8 px-4"
+    class="bg-gradient-to-br from-yellow-50 to-red-100 min-h-screen py-10 px-4 font-sans"
   >
-    <div class="max-w-xl mx-auto bg-white p-8 rounded-lg shadow-lg">
-      <h1 class="text-3xl font-bold text-center text-red-600 mb-6">
-        🎓 Student Admission Form
-      </h1>
+    <div class="max-w-xl mx-auto bg-white p-8 rounded-xl shadow-2xl">
+      <!-- Heading -->
+      <div class="flex items-center justify-center gap-2 mb-2">
+        <svg
+          class="w-8 h-8 text-red-600"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          viewBox="0 0 24 24"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            d="M12 14l9-5-9-5-9 5 9 5z"
+          />
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            d="M12 14l6.16-3.422A12.083 12.083 0 0112 20.055a12.083 12.083 0 01-6.16-9.477L12 14z"
+          />
+        </svg>
+        <h1 class="text-3xl font-extrabold text-red-600">Student Admission</h1>
+      </div>
 
-      <!-- Alert Message -->
+      <!-- Left and Right Navigation Links -->
+      <div class="flex justify-between items-center text-sm mt-2 mb-6 px-1">
+        <a
+          href="/students"
+          class="text-green-600 hover:underline flex items-center gap-1"
+        >
+          <svg
+            class="w-4 h-4"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            viewBox="0 0 24 24"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              d="M3 7h18M3 12h18M3 17h18"
+            />
+          </svg>
+          View Admitted Students
+        </a>
+
+        <a
+          href="/result"
+          class="text-blue-600 hover:underline flex items-center gap-1"
+        >
+          <svg
+            class="w-4 h-4"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            viewBox="0 0 24 24"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              d="M11 17l-5-5m0 0l5-5m-5 5h12"
+            />
+          </svg>
+          Go to Result Upload
+        </a>
+      </div>
+
+      <!-- Alert Box -->
       <div
         id="alertBox"
-        class="hidden text-white text-center py-2 px-4 rounded mb-4 font-semibold"
+        class="hidden text-white text-sm text-center py-2 px-4 rounded mb-4 font-semibold"
       ></div>
 
-      <form id="admissionForm">
-        <label class="block text-gray-700 mb-1">Full Name</label>
-        <input
-          type="text"
-          name="name"
-          required
-          class="w-full p-2 border rounded mb-4"
-        />
+      <!-- Admission Form -->
+      <form id="admissionForm" class="space-y-6">
+        <!-- Name -->
+        <div>
+          <label class="block text-gray-700 font-medium mb-1">Full Name</label>
+          <div class="relative">
+            <input
+              type="text"
+              name="name"
+              required
+              class="w-full pl-10 p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-red-300"
+              placeholder="Enter student name"
+            />
+            <div class="absolute left-3 top-2.5 text-gray-400">
+              <svg
+                class="w-5 h-5"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M5.121 17.804A4 4 0 0011 14h2a4 4 0 005.879 3.804M15 10a4 4 0 10-8 0 4 4 0 008 0z"
+                />
+              </svg>
+            </div>
+          </div>
+        </div>
 
-        <label class="block text-gray-700 mb-1">Class</label>
-        <input
-          type="text"
-          name="class"
-          required
-          class="w-full p-2 border rounded mb-4"
-        />
+        <!-- Class -->
+        <div>
+          <label class="block text-gray-700 font-medium mb-1">Class</label>
+          <div class="relative">
+            <input
+              type="text"
+              name="class"
+              required
+              class="w-full pl-10 p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-red-300"
+              placeholder="Enter class (e.g. 10A)"
+            />
+            <div class="absolute left-3 top-2.5 text-gray-400">
+              <svg
+                class="w-5 h-5"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M9.75 17L12 19.25 14.25 17m-4.5 0v-5.5a3 3 0 016 0V17"
+                />
+              </svg>
+            </div>
+          </div>
+        </div>
 
-        <label class="block text-gray-700 mb-1">Date of Birth</label>
-        <input
-          type="date"
-          name="dateOfBirth"
-          class="w-full p-2 border rounded mb-6"
-        />
+        <!-- Date of Birth -->
+        <div>
+          <label class="block text-gray-700 font-medium mb-1"
+            >Date of Birth</label
+          >
+          <div class="relative">
+            <input
+              type="date"
+              name="dateOfBirth"
+              class="w-full pl-10 p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-red-300"
+            />
+            <div class="absolute left-3 top-2.5 text-gray-400">
+              <svg
+                class="w-5 h-5"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M8 7V3m8 4V3M3 11h18M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
+                />
+              </svg>
+            </div>
+          </div>
+        </div>
 
+        <!-- Submit Button -->
         <button
           type="submit"
-          class="w-full bg-red-600 hover:bg-red-700 text-white font-bold py-2 rounded"
+          class="w-full bg-red-600 hover:bg-red-700 text-white font-bold py-2 rounded-lg transition shadow flex items-center justify-center gap-2"
         >
-          ➕ Admit Student
+          <svg
+            class="w-5 h-5"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            viewBox="0 0 24 24"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              d="M5 13l4 4L19 7"
+            />
+          </svg>
+          Admit Student
         </button>
       </form>
-      <div class="text-center mt-2">
-        <a href="/students" class="text-green-600 hover:underline"></a>
-          View Admitted Students</a
-        >
-      </div>
-
-      <div class="text-center mt-6">
-        <a href="/result" class="text-blue-600 hover:underline"
-          >👉 Go to Result Upload</a
-        >
-      </div>
     </div>
 
+    <!-- Script -->
     <script>
       const form = document.getElementById("admissionForm");
       const alertBox = document.getElementById("alertBox");
@@ -80,9 +223,7 @@
         try {
           const res = await fetch("/admission", {
             method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
+            headers: { "Content-Type": "application/json" },
             body: JSON.stringify(data),
           });
 
@@ -91,23 +232,22 @@
           if (res.ok) {
             alertBox.className =
               "bg-green-500 text-white text-center py-2 px-4 rounded mb-4 font-semibold";
-            alertBox.textContent = "✅ Student admitted successfully!";
+            alertBox.textContent = "Student admitted successfully!";
             alertBox.classList.remove("hidden");
             form.reset();
           } else {
             alertBox.className =
               "bg-red-500 text-white text-center py-2 px-4 rounded mb-4 font-semibold";
-            alertBox.textContent = text || "❌ Failed to admit student.";
+            alertBox.textContent = text || "Failed to admit student.";
             alertBox.classList.remove("hidden");
           }
-        } catch (error) {
+        } catch (err) {
           alertBox.className =
             "bg-red-600 text-white text-center py-2 px-4 rounded mb-4 font-semibold";
-          alertBox.textContent = "❌ Server error. Please try again.";
+          alertBox.textContent = "Server error. Please try again.";
           alertBox.classList.remove("hidden");
         }
 
-        // Hide alert after 4 seconds
         setTimeout(() => alertBox.classList.add("hidden"), 4000);
       });
     </script>
