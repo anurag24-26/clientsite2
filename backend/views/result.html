@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Manage Student Results</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+  </head>
+  <body
+    class="bg-gradient-to-br from-yellow-50 to-red-100 min-h-screen py-8 px-4"
+  >
+    <div class="max-w-5xl mx-auto bg-white rounded-lg shadow-xl p-8">
+      <h1 class="text-3xl font-bold text-center text-red-600 mb-8">
+        🎓 Student Result Panel
+      </h1>
+      <h3 class="text-xl font-bold text-red-600 mb-8">
+        <a href="/admission">🔙 Back to Admission Page</a>
+      </h3>
+
+      <!-- Student List -->
+      <div id="studentListView">
+        <h2 class="text-xl font-semibold mb-4 text-red-500">
+          📋 Click a student to edit their marks
+        </h2>
+        <div id="studentList" class="space-y-2">
+          <!-- JS will populate list -->
+        </div>
+      </div>
+
+      <!-- Result Edit Form -->
+      <div id="resultFormView" class="hidden">
+        <button
+          onclick="goBack()"
+          class="mb-6 text-sm text-blue-600 hover:underline"
+        >
+          🔙 Back to Student List
+        </button>
+        <form id="resultForm">
+          <h2 id="studentName" class="text-xl font-bold text-red-600 mb-4"></h2>
+          <input type="hidden" name="rollNo" id="rollNo" />
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div>
+              <label class="block text-gray-700">Physics</label>
+              <input
+                type="number"
+                id="physics"
+                class="w-full mt-1 p-2 border rounded"
+              />
+            </div>
+            <div>
+              <label class="block text-gray-700">Physics Max</label>
+              <input
+                type="number"
+                id="physicsMax"
+                class="w-full mt-1 p-2 border rounded"
+              />
+            </div>
+            <div>
+              <label class="block text-gray-700">Math</label>
+              <input
+                type="number"
+                id="math"
+                class="w-full mt-1 p-2 border rounded"
+              />
+            </div>
+            <div>
+              <label class="block text-gray-700">Math Max</label>
+              <input
+                type="number"
+                id="mathMax"
+                class="w-full mt-1 p-2 border rounded"
+              />
+            </div>
+            <div>
+              <label class="block text-gray-700">English</label>
+              <input
+                type="number"
+                id="english"
+                class="w-full mt-1 p-2 border rounded"
+              />
+            </div>
+            <div>
+              <label class="block text-gray-700">English Max</label>
+              <input
+                type="number"
+                id="englishMax"
+                class="w-full mt-1 p-2 border rounded"
+              />
+            </div>
+            <div>
+              <label class="block text-gray-700">Hindi</label>
+              <input
+                type="number"
+                id="hindi"
+                class="w-full mt-1 p-2 border rounded"
+              />
+            </div>
+            <div>
+              <label class="block text-gray-700">Hindi Max</label>
+              <input
+                type="number"
+                id="hindiMax"
+                class="w-full mt-1 p-2 border rounded"
+              />
+            </div>
+          </div>
+          <div class="text-center mt-6">
+            <button
+              type="submit"
+              class="bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-6 rounded-lg shadow"
+            >
+              ✅ Save Result
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <script>
+      let allStudents = [];
+
+      async function loadStudentList() {
+        const res = await fetch("/api/students");
+        allStudents = await res.json();
+
+        const list = document.getElementById("studentList");
+        list.innerHTML = "";
+
+        allStudents.forEach((student) => {
+          const div = document.createElement("div");
+          div.className =
+            "p-4 border border-yellow-300 bg-yellow-100 rounded cursor-pointer hover:bg-yellow-200";
+          div.innerText = `Roll No: ${student.rollNo} | ${student.name}`;
+          div.onclick = () => openResultForm(student.rollNo);
+          list.appendChild(div);
+        });
+      }
+
+      function openResultForm(rollNo) {
+        const student = allStudents.find((s) => s.rollNo === rollNo);
+        if (!student) return;
+
+        // Fill form
+        document.getElementById(
+          "studentName"
+        ).innerText = `Editing Result for: ${student.name} (Roll No: ${student.rollNo})`;
+        document.getElementById("rollNo").value = student.rollNo;
+        document.getElementById("physics").value = student.marks?.physics || 0;
+        document.getElementById("physicsMax").value =
+          student.maxMarks?.physics || 100;
+        document.getElementById("math").value = student.marks?.math || 0;
+        document.getElementById("mathMax").value =
+          student.maxMarks?.math || 100;
+        document.getElementById("english").value = student.marks?.english || 0;
+        document.getElementById("englishMax").value =
+          student.maxMarks?.english || 100;
+        document.getElementById("hindi").value = student.marks?.hindi || 0;
+        document.getElementById("hindiMax").value =
+          student.maxMarks?.hindi || 100;
+
+        // Switch views
+        document.getElementById("studentListView").classList.add("hidden");
+        document.getElementById("resultFormView").classList.remove("hidden");
+      }
+
+      function goBack() {
+        document.getElementById("resultFormView").classList.add("hidden");
+        document.getElementById("studentListView").classList.remove("hidden");
+      }
+
+      // Handle submit
+      document
+        .getElementById("resultForm")
+        .addEventListener("submit", async (e) => {
+          e.preventDefault();
+
+          const rollNo = document.getElementById("rollNo").value;
+          const studentData = {
+            rollNo: Number(rollNo),
+            marks: {
+              physics: Number(document.getElementById("physics").value),
+              math: Number(document.getElementById("math").value),
+              english: Number(document.getElementById("english").value),
+              hindi: Number(document.getElementById("hindi").value),
+            },
+            maxMarks: {
+              physics: Number(document.getElementById("physicsMax").value),
+              math: Number(document.getElementById("mathMax").value),
+              english: Number(document.getElementById("englishMax").value),
+              hindi: Number(document.getElementById("hindiMax").value),
+            },
+          };
+
+          const res = await fetch("/submit", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ students: [studentData] }),
+          });
+
+          if (res.ok) {
+            alert("✅ Result saved!");
+            goBack();
+            loadStudentList();
+          } else {
+            alert("❌ Failed to save result.");
+          }
+        });
+
+      loadStudentList();
+    </script>
+  </body>
+</html>
