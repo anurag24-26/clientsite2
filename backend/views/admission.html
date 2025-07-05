@@ -1,4 +1,3 @@
-<!-- views/admission.html -->
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -14,7 +13,13 @@
         🎓 Student Admission Form
       </h1>
 
-      <form method="POST" action="/admission">
+      <!-- Alert Message -->
+      <div
+        id="alertBox"
+        class="hidden text-white text-center py-2 px-4 rounded mb-4 font-semibold"
+      ></div>
+
+      <form id="admissionForm">
         <label class="block text-gray-700 mb-1">Full Name</label>
         <input
           type="text"
@@ -45,6 +50,11 @@
           ➕ Admit Student
         </button>
       </form>
+      <div class="text-center mt-2">
+        <a href="/students" class="text-green-600 hover:underline"
+          >📋 View Admitted Students</a
+        >
+      </div>
 
       <div class="text-center mt-6">
         <a href="/result" class="text-blue-600 hover:underline"
@@ -52,5 +62,54 @@
         >
       </div>
     </div>
+
+    <script>
+      const form = document.getElementById("admissionForm");
+      const alertBox = document.getElementById("alertBox");
+
+      form.addEventListener("submit", async (e) => {
+        e.preventDefault();
+
+        const formData = new FormData(form);
+        const data = {
+          name: formData.get("name"),
+          class: formData.get("class"),
+          dateOfBirth: formData.get("dateOfBirth"),
+        };
+
+        try {
+          const res = await fetch("/admission", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(data),
+          });
+
+          const text = await res.text();
+
+          if (res.ok) {
+            alertBox.className =
+              "bg-green-500 text-white text-center py-2 px-4 rounded mb-4 font-semibold";
+            alertBox.textContent = "✅ Student admitted successfully!";
+            alertBox.classList.remove("hidden");
+            form.reset();
+          } else {
+            alertBox.className =
+              "bg-red-500 text-white text-center py-2 px-4 rounded mb-4 font-semibold";
+            alertBox.textContent = text || "❌ Failed to admit student.";
+            alertBox.classList.remove("hidden");
+          }
+        } catch (error) {
+          alertBox.className =
+            "bg-red-600 text-white text-center py-2 px-4 rounded mb-4 font-semibold";
+          alertBox.textContent = "❌ Server error. Please try again.";
+          alertBox.classList.remove("hidden");
+        }
+
+        // Hide alert after 4 seconds
+        setTimeout(() => alertBox.classList.add("hidden"), 4000);
+      });
+    </script>
   </body>
 </html>

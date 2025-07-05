@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Admitted Students</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+  </head>
+  <body class="bg-red-50 min-h-screen p-6">
+    <div class="max-w-5xl mx-auto bg-white shadow-md rounded-lg p-8">
+      <h1 class="text-3xl font-bold text-center text-red-600 mb-6">
+        🎓 Admitted Students List
+      </h1>
+      <div id="studentList" class="space-y-4">
+        <!-- Students will be loaded here -->
+      </div>
+      <div class="mt-6 text-center">
+        <a
+          href="/admission"
+          class="bg-yellow-500 hover:bg-yellow-600 text-white px-4 py-2 rounded"
+        >
+          🔙 Go Back to Admission
+        </a>
+      </div>
+    </div>
+
+    <script>
+      async function loadStudents() {
+        const res = await fetch("/api/students");
+        const students = await res.json();
+        const container = document.getElementById("studentList");
+
+        if (students.length === 0) {
+          container.innerHTML =
+            "<p class='text-center text-gray-500'>No students admitted yet.</p>";
+          return;
+        }
+
+        students.forEach((student) => {
+          const s = document.createElement("div");
+          s.className =
+            "bg-red-100 border border-red-300 rounded-lg p-4 flex justify-between items-center";
+          s.innerHTML = `
+            <div>
+              <p><strong>📛 Name:</strong> ${student.name}</p>
+              <p><strong>📘 Class:</strong> ${student.class}</p>
+              <p><strong>🎫 Roll No:</strong> ${student.rollNo}</p>
+              <p><strong>🎂 DOB:</strong> ${
+                student.dateOfBirth
+                  ? new Date(student.dateOfBirth).toLocaleDateString()
+                  : "N/A"
+              }</p>
+            </div>
+            <button
+              onclick="deleteStudent(${student.rollNo}, this)"
+              class="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded"
+            >
+              ❌ Delete
+            </button>
+          `;
+          container.appendChild(s);
+        });
+      }
+
+      async function deleteStudent(rollNo, btn) {
+        const confirmDelete = confirm(
+          `Are you sure you want to delete student with Roll No ${rollNo}?`
+        );
+        if (!confirmDelete) return;
+
+        const res = await fetch(`/api/student/${rollNo}`, {
+          method: "DELETE",
+        });
+        const result = await res.json();
+
+        if (res.ok) {
+          alert("✅ Student deleted");
+          btn.parentElement.remove();
+        } else {
+          alert(result.message || "❌ Failed to delete");
+        }
+      }
+
+      loadStudents();
+    </script>
+  </body>
+</html>

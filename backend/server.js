@@ -44,6 +44,10 @@ app.get("/admission", (req, res) => {
 app.get("/result", (req, res) => {
   res.sendFile(path.join(__dirname, "views", "result.html"));
 });
+// Serve admitted students view
+app.get("/students", (req, res) => {
+  res.sendFile(path.join(__dirname, "views", "students.html"));
+});
 
 // Student list view
 app.get("/student-list", (req, res) => {
@@ -118,6 +122,29 @@ app.post("/submit", async (req, res) => {
   } catch (err) {
     console.error(err);
     res.status(500).send("❌ Error saving results.");
+  }
+});
+// Delete student by roll number
+app.delete("/api/student/:rollNo", async (req, res) => {
+  const { rollNo } = req.params;
+
+  if (!rollNo) {
+    return res.status(400).json({ message: "Roll number is required." });
+  }
+
+  try {
+    const deleted = await Student.findOneAndDelete({ rollNo: Number(rollNo) });
+
+    if (!deleted) {
+      return res.status(404).json({ message: "❌ Student not found." });
+    }
+
+    res.json({ message: "✅ Student deleted successfully." });
+  } catch (err) {
+    console.error(err);
+    res
+      .status(500)
+      .json({ message: "❌ Server error while deleting student." });
   }
 });
 
