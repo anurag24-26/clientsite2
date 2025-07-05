@@ -128,20 +128,29 @@ app.post("/submit", async (req, res) => {
 app.delete("/api/student/:rollNo", async (req, res) => {
   const { rollNo } = req.params;
 
-  if (!rollNo) {
-    return res.status(400).json({ message: "Roll number is required." });
+  // Check for valid numeric roll number
+  if (!rollNo || isNaN(rollNo)) {
+    return res
+      .status(400)
+      .json({ message: "❌ Valid roll number is required." });
   }
 
   try {
-    const deleted = await Student.findOneAndDelete({ rollNo: Number(rollNo) });
+    const numericRoll = Number(rollNo);
 
-    if (!deleted) {
+    // Check if the student exists first
+    const student = await Student.findOne({ rollNo: numericRoll });
+
+    if (!student) {
       return res.status(404).json({ message: "❌ Student not found." });
     }
 
+    // Perform delete
+    await Student.deleteOne({ rollNo: numericRoll });
+
     res.json({ message: "✅ Student deleted successfully." });
   } catch (err) {
-    console.error(err);
+    console.error("Delete Error:", err.message);
     res
       .status(500)
       .json({ message: "❌ Server error while deleting student." });
