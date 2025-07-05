@@ -83,9 +83,10 @@ app.post("/admission", async (req, res) => {
 app.get("/api/students", async (req, res) => {
   try {
     const students = await Student.find().sort({ rollNo: 1 });
-    res.json(students);
+    res.json(students); // ✅ Returns array
   } catch (err) {
-    res.status(500).send("❌ Failed to fetch students");
+    console.error("❌ Error fetching students:", err);
+    res.status(500).json({ message: "❌ Failed to fetch students" }); // ✅ Return JSON
   }
 });
 
@@ -149,11 +150,9 @@ app.delete("/api/student", async (req, res) => {
       }
     }
 
-    return res
-      .status(404)
-      .json({
-        message: "❌ Student not found. Provide valid rollNo or name & class.",
-      });
+    return res.status(404).json({
+      message: "❌ Student not found. Provide valid rollNo or name & class.",
+    });
   } catch (err) {
     console.error("❌ Deletion Error:", err);
     return res
