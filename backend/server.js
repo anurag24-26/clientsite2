@@ -125,33 +125,38 @@ app.post("/submit", async (req, res) => {
   }
 });
 // Delete student by roll number
-app.delete("/api/student/:rollNo", async (req, res) => {
-  const { rollNo } = req.params;
-
-  // Check for valid numeric roll number
-  if (!rollNo || isNaN(rollNo)) {
-    return res
-      .status(400)
-      .json({ message: "❌ Valid roll number is required." });
-  }
+// DELETE /api/student?rollNo=123 OR ?name=John&class=10
+app.delete("/api/student", async (req, res) => {
+  const { rollNo, name, class: studentClass } = req.query;
 
   try {
-    const numericRoll = Number(rollNo);
-
-    // Check if the student exists first
-    const student = await Student.findOne({ rollNo: numericRoll });
-
-    if (!student) {
-      return res.status(404).json({ message: "❌ Student not found." });
+    if (rollNo && !isNaN(rollNo)) {
+      const deletedByRoll = await Student.findOneAndDelete({
+        rollNo: Number(rollNo),
+      });
+      if (deletedByRoll) {
+        return res.json({ message: "✅ Student deleted by roll number." });
+      }
     }
 
-    // Perform delete
-    await Student.deleteOne({ rollNo: numericRoll });
+    if (name && studentClass) {
+      const deletedByName = await Student.findOneAndDelete({
+        name,
+        class: studentClass,
+      });
+      if (deletedByName) {
+        return res.json({ message: "✅ Student deleted by name and class." });
+      }
+    }
 
-    res.json({ message: "✅ Student deleted successfully." });
+    return res
+      .status(404)
+      .json({
+        message: "❌ Student not found. Provide valid rollNo or name & class.",
+      });
   } catch (err) {
-    console.error("Delete Error:", err.message);
-    res
+    console.error("❌ Deletion Error:", err);
+    return res
       .status(500)
       .json({ message: "❌ Server error while deleting student." });
   }

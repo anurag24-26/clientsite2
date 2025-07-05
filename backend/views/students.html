@@ -25,58 +25,75 @@
 
     <script>
       async function loadStudents() {
-        const res = await fetch("/api/students");
-        const students = await res.json();
-        const container = document.getElementById("studentList");
+        try {
+          const res = await fetch("/api/students");
+          const students = await res.json();
+          const container = document.getElementById("studentList");
 
-        if (students.length === 0) {
-          container.innerHTML =
-            "<p class='text-center text-gray-500'>No students admitted yet.</p>";
-          return;
+          if (!students.length) {
+            container.innerHTML =
+              "<p class='text-center text-gray-500'>No students admitted yet.</p>";
+            return;
+          }
+
+          students.forEach((student) => {
+            const s = document.createElement("div");
+            s.className =
+              "bg-red-100 border border-red-300 rounded-lg p-4 flex justify-between items-center";
+            s.innerHTML = `
+              <div>
+                <p><strong>📛 Name:</strong> ${student.name}</p>
+                <p><strong>📘 Class:</strong> ${student.class}</p>
+                <p><strong>🎫 Roll No:</strong> ${student.rollNo || "N/A"}</p>
+                <p><strong>🎂 DOB:</strong> ${
+                  student.dateOfBirth
+                    ? new Date(student.dateOfBirth).toLocaleDateString()
+                    : "N/A"
+                }</p>
+              </div>
+              <button
+                onclick="deleteStudent(${
+                  student.rollNo || null
+                }, ${JSON.stringify(student.name)}, ${JSON.stringify(
+              student.class
+            )}, this)"
+                class="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded"
+              >
+                ❌ Delete
+              </button>
+            `;
+            container.appendChild(s);
+          });
+        } catch (err) {
+          alert("❌ Failed to load students.");
         }
-
-        students.forEach((student) => {
-          const s = document.createElement("div");
-          s.className =
-            "bg-red-100 border border-red-300 rounded-lg p-4 flex justify-between items-center";
-          s.innerHTML = `
-            <div>
-              <p><strong>📛 Name:</strong> ${student.name}</p>
-              <p><strong>📘 Class:</strong> ${student.class}</p>
-              <p><strong>🎫 Roll No:</strong> ${student.rollNo}</p>
-              <p><strong>🎂 DOB:</strong> ${
-                student.dateOfBirth
-                  ? new Date(student.dateOfBirth).toLocaleDateString()
-                  : "N/A"
-              }</p>
-            </div>
-            <button
-              onclick="deleteStudent(${student.rollNo}, this)"
-              class="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded"
-            >
-              ❌ Delete
-            </button>
-          `;
-          container.appendChild(s);
-        });
       }
 
-      async function deleteStudent(rollNo, btn) {
+      async function deleteStudent(rollNo, name, studentClass, btn) {
         const confirmDelete = confirm(
-          `Are you sure you want to delete student with Roll No ${rollNo}?`
+          `Are you sure you want to delete ${name} (Class ${studentClass})?`
         );
         if (!confirmDelete) return;
 
-        const res = await fetch(`/api/student/${rollNo}`, {
-          method: "DELETE",
-        });
-        const result = await res.json();
+        const params = new URLSearchParams();
+        if (rollNo) params.append("rollNo", rollNo);
+        params.append("name", name);
+        params.append("class", studentClass);
 
-        if (res.ok) {
-          alert("✅ Student deleted");
-          btn.parentElement.remove();
-        } else {
-          alert(result.message || "❌ Failed to delete");
+        try {
+          const res = await fetch(`/api/student?${params.toString()}`, {
+            method: "DELETE",
+          });
+          const result = await res.json();
+
+          if (res.ok) {
+            alert("✅ Student deleted successfully.");
+            btn.parentElement.remove();
+          } else {
+            alert(result.message || "❌ Deletion failed.");
+          }
+        } catch (error) {
+          alert("❌ Server error during deletion.");
         }
       }
 
