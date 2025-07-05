@@ -150,14 +150,15 @@ app.delete("/api/student", async (req, res) => {
       }
     }
 
+    // ❌ If nothing was deleted
     return res.status(404).json({
       message: "❌ Student not found. Provide valid rollNo or name & class.",
     });
   } catch (err) {
     console.error("❌ Deletion Error:", err);
-    return res
-      .status(500)
-      .json({ message: "❌ Server error while deleting student." });
+    return res.status(500).json({
+      message: "❌ Server error while deleting student.",
+    });
   }
 });
 

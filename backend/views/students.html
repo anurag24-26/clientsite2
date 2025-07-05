@@ -68,7 +68,6 @@
           alert("❌ Failed to load students.");
         }
       }
-
       async function deleteStudent(rollNo, name, studentClass, btn) {
         const confirmDelete = confirm(
           `Are you sure you want to delete ${name} (Class ${studentClass})?`
@@ -84,16 +83,24 @@
           const res = await fetch(`/api/student?${params.toString()}`, {
             method: "DELETE",
           });
-          const result = await res.json();
+
+          let result = {};
+          try {
+            result = await res.json(); // ✅ Will work if server sends valid JSON
+          } catch {
+            // If response body is empty or invalid
+            result.message = "❌ Unexpected response format.";
+          }
 
           if (res.ok) {
-            alert("✅ Student deleted successfully.");
+            alert(result.message || "✅ Student deleted successfully.");
             btn.parentElement.remove();
           } else {
             alert(result.message || "❌ Deletion failed.");
           }
         } catch (error) {
-          alert("❌ Server error during deletion.");
+          alert("❌ Network/server error during deletion.");
+          console.error(error);
         }
       }
 
