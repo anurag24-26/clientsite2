@@ -74,12 +74,6 @@ export default function Result() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-red-50 to-yellow-100 flex flex-col items-center justify-center px-4 py-10">
-      <div className="mb-6 text-center">
-        <img src={logo} alt="Logo" className="h-20 mx-auto mb-2" />
-        <h1 className="text-3xl font-bold text-red-600">
-          Saraswati Coaching Result
-        </h1>
-      </div>
       {!result && (
         <form
           onSubmit={handleSubmit}
@@ -152,9 +146,11 @@ export default function Result() {
       {result && (
         <div className="mt-8 bg-white border-4 border-red-300 p-8 rounded-xl shadow-lg max-w-xl w-full text-left print:border-none print:shadow-none">
           <div className="mb-6 text-center">
-            <h2 className="text-2xl font-bold text-red-600">
-              Saraswati Coaching Centre
-            </h2>
+            <img src={logo} alt="Logo" className="h-20 mx-auto mb-2" />
+            <h1 className="text-3xl font-bold text-red-600">
+              Saraswati Coaching Result
+            </h1>
+
             <p className="text-gray-700 text-sm">
               बड़गो, बरईपार, गोरखपुर - 273402 <br />
               (बड़ोदा बैंक के सामने, बड़गो)
