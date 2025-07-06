@@ -145,19 +145,19 @@
           </div>
 
           <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            <!-- Subject Inputs -->
             <script>
               const subjects = ["science", "math", "english", "hindi", "sst"];
               subjects.forEach((subject) => {
                 document.write(`
-                <div>
-                  <label class='block text-gray-700 capitalize'>${subject}</label>
-                  <input type='number' id='${subject}' class='w-full mt-1 p-2 border border-gray-300 rounded' />
-                </div>
-                <div>
-                  <label class='block text-gray-700 capitalize'>${subject} Max</label>
-                  <input type='number' id='${subject}Max' class='w-full mt-1 p-2 border border-gray-300 rounded' />
-                </div>`);
+                  <div>
+                    <label class='block text-gray-700 capitalize'>${subject}</label>
+                    <input type='number' id='${subject}' class='w-full mt-1 p-2 border border-gray-300 rounded' />
+                  </div>
+                  <div>
+                    <label class='block text-gray-700 capitalize'>${subject} Max</label>
+                    <input type='number' id='${subject}Max' class='w-full mt-1 p-2 border border-gray-300 rounded' />
+                  </div>
+                `);
               });
             </script>
           </div>
@@ -214,15 +214,24 @@
           "studentName"
         ).innerText = `Editing Result for: ${student.name} (Roll No: ${student.rollNo})`;
 
-        ["science", "math", "english", "hindi", "sst"].forEach((subj) => {
-          document.getElementById(subj).value = 0;
-          document.getElementById(subj + "Max").value = 100;
-        });
-
-        document.getElementById("testMonth").value = "";
+        const testMonthSelect = document.getElementById("testMonth");
+        testMonthSelect.onchange = () => updateMarksFromMonth(student);
+        updateMarksFromMonth(student); // Load for current default selection
 
         document.getElementById("studentListView").classList.add("hidden");
         document.getElementById("resultFormView").classList.remove("hidden");
+      }
+
+      function updateMarksFromMonth(student) {
+        const month = document.getElementById("testMonth").value;
+        const result = student.results?.find((r) => r.testMonth === month);
+
+        const subjects = ["science", "math", "english", "hindi", "sst"];
+        subjects.forEach((subj) => {
+          document.getElementById(subj).value = result?.marks?.[subj] ?? 0;
+          document.getElementById(subj + "Max").value =
+            result?.maxMarks?.[subj] ?? 100;
+        });
       }
 
       function goBack() {
@@ -247,7 +256,8 @@
             maxMarks: {},
           };
 
-          ["science", "math", "english", "hindi", "sst"].forEach((subj) => {
+          const subjects = ["science", "math", "english", "hindi", "sst"];
+          subjects.forEach((subj) => {
             studentData.marks[subj] = Number(
               document.getElementById(subj).value
             );
