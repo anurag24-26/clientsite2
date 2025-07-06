@@ -199,6 +199,6 @@ app.get("/api/student/check", async (req, res) => {
 });
 
 // ===== Start Server =====
-app.listen(5000, () =>
-  console.log("🚀 Admin Panel running on http://localhost:5000")
-);
+app.listen(PORT, () => {
+  console.log(`🚀 Admin Panel running on http://localhost:${PORT}`);
+});
