@@ -107,27 +107,35 @@ app.post("/submit", async (req, res) => {
 
       if (student) {
         student.marks = {
-          physics: Number(data.marks?.physics) || 0,
+          science: Number(data.marks?.science) || 0,
           math: Number(data.marks?.math) || 0,
           english: Number(data.marks?.english) || 0,
           hindi: Number(data.marks?.hindi) || 0,
+          sst: Number(data.marks?.sst) || 0,
         };
+
         student.maxMarks = {
-          physics: Number(data.maxMarks?.physics) || 100,
+          science: Number(data.maxMarks?.science) || 100,
           math: Number(data.maxMarks?.math) || 100,
           english: Number(data.maxMarks?.english) || 100,
           hindi: Number(data.maxMarks?.hindi) || 100,
+          sst: Number(data.maxMarks?.sst) || 100,
         };
+
+        // ✅ Add testMonth here
+        student.testMonth = data.testMonth || "";
+
         await student.save();
       }
     }
 
     res.send("✅ Student results uploaded/updated successfully!");
   } catch (err) {
-    console.error(err);
+    console.error("❌ Error saving results:", err);
     res.status(500).send("❌ Error saving results.");
   }
 });
+
 // Delete student by roll number
 // DELETE /api/student?rollNo=123 OR ?name=John&class=10
 
