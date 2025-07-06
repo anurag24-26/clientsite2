@@ -22,7 +22,7 @@ export default function Result() {
 
     try {
       const res = await axios.get(
-        "https://adminpanel-290v.onrender.com//api/student/check",
+        "https://adminpanel-290v.onrender.com/api/student/check",
         {
           params: {
             name,
