@@ -105,33 +105,45 @@ app.post("/submit", async (req, res) => {
     for (const data of students) {
       const student = await Student.findOne({ rollNo: data.rollNo });
 
-      if (student) {
-        student.marks = {
+      if (!student) continue;
+
+      const newEntry = {
+        testMonth: data.testMonth, // e.g., "July 2025"
+        marks: {
           science: Number(data.marks?.science) || 0,
           math: Number(data.marks?.math) || 0,
           english: Number(data.marks?.english) || 0,
           hindi: Number(data.marks?.hindi) || 0,
           sst: Number(data.marks?.sst) || 0,
-        };
-
-        student.maxMarks = {
+        },
+        maxMarks: {
           science: Number(data.maxMarks?.science) || 100,
           math: Number(data.maxMarks?.math) || 100,
           english: Number(data.maxMarks?.english) || 100,
           hindi: Number(data.maxMarks?.hindi) || 100,
           sst: Number(data.maxMarks?.sst) || 100,
-        };
+        },
+      };
 
-        // ✅ Add testMonth here
-        student.testMonth = data.testMonth || "";
+      // Check if entry for this testMonth already exists
+      const existingIndex = student.results.findIndex(
+        (result) => result.testMonth === data.testMonth
+      );
 
-        await student.save();
+      if (existingIndex !== -1) {
+        // Update existing entry
+        student.results[existingIndex] = newEntry;
+      } else {
+        // Push new test result
+        student.results.push(newEntry);
       }
+
+      await student.save();
     }
 
     res.send("✅ Student results uploaded/updated successfully!");
   } catch (err) {
-    console.error("❌ Error saving results:", err);
+    console.error("❌ Error in /submit:", err);
     res.status(500).send("❌ Error saving results.");
   }
 });

@@ -6,12 +6,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <script src="https://cdn.tailwindcss.com"></script>
   </head>
-
   <body
     class="bg-gradient-to-br from-yellow-50 to-red-100 min-h-screen py-10 px-4"
   >
     <div class="max-w-5xl mx-auto bg-white rounded-lg shadow-xl p-6 sm:p-10">
-      <!-- Top Navbar -->
       <div class="flex items-center justify-between mb-6">
         <div class="absolute top-4 left-4">
           <a
@@ -34,7 +32,6 @@
             Home
           </a>
         </div>
-
         <h1 class="text-3xl font-bold text-red-600 flex items-center gap-2">
           <svg
             class="w-8 h-8"
@@ -56,7 +53,6 @@
           </svg>
           Student Result Panel
         </h1>
-
         <a
           href="/admission"
           class="text-sm bg-yellow-500 hover:bg-yellow-600 text-white px-4 py-2 rounded-lg flex items-center gap-1 shadow"
@@ -78,7 +74,7 @@
         </a>
       </div>
 
-      <!-- Student List View -->
+      <!-- Student List -->
       <div id="studentListView">
         <h2
           class="text-xl font-semibold text-red-500 mb-4 flex items-center gap-2"
@@ -96,15 +92,12 @@
               d="M9 17v-6a3 3 0 016 0v6m-4 4h2a2 2 0 002-2v-1H9v1a2 2 0 002 2z"
             />
           </svg>
-          Click a student to edit their marks
+          Click a student to enter or update result
         </h2>
-
-        <div id="studentList" class="space-y-3">
-          <!-- JS will populate students here -->
-        </div>
+        <div id="studentList" class="space-y-3"></div>
       </div>
 
-      <!-- Result Edit Form -->
+      <!-- Result Form -->
       <div id="resultFormView" class="hidden">
         <button
           onclick="goBack()"
@@ -128,9 +121,9 @@
 
         <form id="resultForm">
           <h2 id="studentName" class="text-xl font-bold text-red-600 mb-4"></h2>
-          <input type="hidden" name="rollNo" id="rollNo" />
+          <input type="hidden" id="rollNo" />
 
-          <!-- Test Month Dropdown -->
+          <!-- Month Selection -->
           <div class="mb-4">
             <label class="block text-gray-700 font-medium">Test Month</label>
             <select
@@ -152,95 +145,21 @@
           </div>
 
           <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            <!-- Science -->
-            <div>
-              <label class="block text-gray-700">Science</label>
-              <input
-                type="number"
-                id="science"
-                class="w-full mt-1 p-2 border border-gray-300 rounded"
-              />
-            </div>
-            <div>
-              <label class="block text-gray-700">Science Max</label>
-              <input
-                type="number"
-                id="scienceMax"
-                class="w-full mt-1 p-2 border border-gray-300 rounded"
-              />
-            </div>
-
-            <!-- Math -->
-            <div>
-              <label class="block text-gray-700">Math</label>
-              <input
-                type="number"
-                id="math"
-                class="w-full mt-1 p-2 border border-gray-300 rounded"
-              />
-            </div>
-            <div>
-              <label class="block text-gray-700">Math Max</label>
-              <input
-                type="number"
-                id="mathMax"
-                class="w-full mt-1 p-2 border border-gray-300 rounded"
-              />
-            </div>
-
-            <!-- English -->
-            <div>
-              <label class="block text-gray-700">English</label>
-              <input
-                type="number"
-                id="english"
-                class="w-full mt-1 p-2 border border-gray-300 rounded"
-              />
-            </div>
-            <div>
-              <label class="block text-gray-700">English Max</label>
-              <input
-                type="number"
-                id="englishMax"
-                class="w-full mt-1 p-2 border border-gray-300 rounded"
-              />
-            </div>
-
-            <!-- Hindi -->
-            <div>
-              <label class="block text-gray-700">Hindi</label>
-              <input
-                type="number"
-                id="hindi"
-                class="w-full mt-1 p-2 border border-gray-300 rounded"
-              />
-            </div>
-            <div>
-              <label class="block text-gray-700">Hindi Max</label>
-              <input
-                type="number"
-                id="hindiMax"
-                class="w-full mt-1 p-2 border border-gray-300 rounded"
-              />
-            </div>
-
-            <!-- SST -->
-            <div>
-              <label class="block text-gray-700">SST</label>
-              <input
-                type="number"
-                id="sst"
-                class="w-full mt-1 p-2 border border-gray-300 rounded"
-              />
-            </div>
-            <div>
-              <label class="block text-gray-700">SST Max</label>
-              <input
-                type="number"
-                id="sstMax"
-                class="w-full mt-1 p-2 border border-gray-300 rounded"
-              />
-            </div>
+            <!-- Subject Inputs -->
+            <script>
+              const subjects = ["science", "math", "english", "hindi", "sst"];
+              subjects.forEach((subject) => {
+                document.write(`
+                <div>
+                  <label class='block text-gray-700 capitalize'>${subject}</label>
+                  <input type='number' id='${subject}' class='w-full mt-1 p-2 border border-gray-300 rounded' />
+                </div>
+                <div>
+                  <label class='block text-gray-700 capitalize'>${subject} Max</label>
+                  <input type='number' id='${subject}Max' class='w-full mt-1 p-2 border border-gray-300 rounded' />
+                </div>`);
+              });
+            </script>
           </div>
 
           <div class="text-center mt-6">
@@ -274,10 +193,8 @@
       async function loadStudentList() {
         const res = await fetch("/api/students");
         allStudents = await res.json();
-
         const list = document.getElementById("studentList");
         list.innerHTML = "";
-
         allStudents.forEach((student) => {
           const div = document.createElement("div");
           div.className =
@@ -292,26 +209,17 @@
         const student = allStudents.find((s) => s.rollNo === rollNo);
         if (!student) return;
 
+        document.getElementById("rollNo").value = student.rollNo;
         document.getElementById(
           "studentName"
         ).innerText = `Editing Result for: ${student.name} (Roll No: ${student.rollNo})`;
-        document.getElementById("rollNo").value = student.rollNo;
-        document.getElementById("testMonth").value = student.testMonth || "";
 
-        document.getElementById("science").value = student.marks?.science || 0;
-        document.getElementById("scienceMax").value =
-          student.maxMarks?.science || 100;
-        document.getElementById("math").value = student.marks?.math || 0;
-        document.getElementById("mathMax").value =
-          student.maxMarks?.math || 100;
-        document.getElementById("english").value = student.marks?.english || 0;
-        document.getElementById("englishMax").value =
-          student.maxMarks?.english || 100;
-        document.getElementById("hindi").value = student.marks?.hindi || 0;
-        document.getElementById("hindiMax").value =
-          student.maxMarks?.hindi || 100;
-        document.getElementById("sst").value = student.marks?.sst || 0;
-        document.getElementById("sstMax").value = student.maxMarks?.sst || 100;
+        ["science", "math", "english", "hindi", "sst"].forEach((subj) => {
+          document.getElementById(subj).value = 0;
+          document.getElementById(subj + "Max").value = 100;
+        });
+
+        document.getElementById("testMonth").value = "";
 
         document.getElementById("studentListView").classList.add("hidden");
         document.getElementById("resultFormView").classList.remove("hidden");
@@ -328,25 +236,25 @@
           e.preventDefault();
 
           const rollNo = document.getElementById("rollNo").value;
+          const testMonth = document.getElementById("testMonth").value;
+
+          if (!testMonth) return alert("Please select a test month.");
 
           const studentData = {
             rollNo: Number(rollNo),
-            testMonth: document.getElementById("testMonth").value,
-            marks: {
-              science: Number(document.getElementById("science").value),
-              math: Number(document.getElementById("math").value),
-              english: Number(document.getElementById("english").value),
-              hindi: Number(document.getElementById("hindi").value),
-              sst: Number(document.getElementById("sst").value),
-            },
-            maxMarks: {
-              science: Number(document.getElementById("scienceMax").value),
-              math: Number(document.getElementById("mathMax").value),
-              english: Number(document.getElementById("englishMax").value),
-              hindi: Number(document.getElementById("hindiMax").value),
-              sst: Number(document.getElementById("sstMax").value),
-            },
+            testMonth,
+            marks: {},
+            maxMarks: {},
           };
+
+          ["science", "math", "english", "hindi", "sst"].forEach((subj) => {
+            studentData.marks[subj] = Number(
+              document.getElementById(subj).value
+            );
+            studentData.maxMarks[subj] = Number(
+              document.getElementById(subj + "Max").value
+            );
+          });
 
           const res = await fetch("/submit", {
             method: "POST",
