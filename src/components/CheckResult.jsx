@@ -1,5 +1,11 @@
 import React, { useState } from "react";
-import { FaCheckCircle, FaTimesCircle, FaDownload } from "react-icons/fa";
+import {
+  FaCheckCircle,
+  FaTimesCircle,
+  FaDownload,
+  FaSyncAlt,
+  FaArrowRight,
+} from "react-icons/fa";
 import axios from "axios";
 import logo from "../assets/logo12.jpg";
 
@@ -9,14 +15,17 @@ export default function Result() {
   const [rollNo, setRollNo] = useState("");
   const [result, setResult] = useState(null);
   const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError("");
     setResult(null);
+    setLoading(true);
 
     if (!name || !studentClass) {
-      setError("❌ कृपया नाम और कक्षा अनिवार्य रूप से भरें।");
+      setError("कृपया नाम और कक्षा अनिवार्य रूप से भरें।");
+      setLoading(false);
       return;
     }
 
@@ -33,7 +42,9 @@ export default function Result() {
       );
       setResult(res.data);
     } catch (err) {
-      setError("❌ परिणाम नहीं मिला। कृपया नाम और कक्षा जांचें।");
+      setError("परिणाम नहीं मिला। कृपया नाम और कक्षा जांचें।");
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -58,7 +69,7 @@ export default function Result() {
   };
 
   const handleDownloadPDF = () => {
-    window.print(); // Simple print trigger, can be replaced with `jspdf` for advanced PDFs
+    window.print();
   };
 
   return (
@@ -79,7 +90,7 @@ export default function Result() {
             कृपया अपना नाम, कक्षा और यदि ज्ञात हो तो रोल नंबर दर्ज करें।
           </p>
           <p className="text-xs text-center text-gray-500 mb-6">
-            Example: नाम - *Prajwal Pandey*, कक्षा - *7*, रोल नंबर - *202501*
+            उदाहरण: नाम - Prajwal Pandey, कक्षा - 7, रोल नंबर - 202501
           </p>
 
           <div className="mb-4">
@@ -111,11 +122,25 @@ export default function Result() {
               className="mt-1 w-full border rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-yellow-400"
             />
           </div>
+
           <button
             type="submit"
-            className="w-full bg-red-500 hover:bg-red-600 text-white font-semibold py-2 rounded-lg"
+            disabled={loading}
+            className={`w-full ${
+              loading ? "bg-gray-400" : "bg-red-500 hover:bg-red-600"
+            } text-white font-semibold py-2 rounded-lg flex items-center justify-center gap-2 transition`}
           >
-            परिणाम देखें
+            {loading ? (
+              <>
+                <FaSyncAlt className="animate-spin" />
+                जांच हो रही है...
+              </>
+            ) : (
+              <>
+                <FaArrowRight />
+                परिणाम देखें
+              </>
+            )}
           </button>
         </form>
       )}
@@ -138,7 +163,7 @@ export default function Result() {
               (बड़ोदा बैंक के सामने, बड़गो)
             </p>
             <p className="text-gray-800 mt-2 font-semibold">
-              📘 Unit Test - June 2025
+              Unit Test - June 2025
             </p>
           </div>
 
@@ -157,6 +182,7 @@ export default function Result() {
           </p>
 
           <hr className="my-3" />
+
           <div className="space-y-2">
             {result.marks.physics > 0 && (
               <p>
@@ -192,15 +218,16 @@ export default function Result() {
           <div className="mt-8 flex flex-col sm:flex-row justify-center sm:justify-between items-center gap-4 print:hidden">
             <button
               onClick={resetForm}
-              className="bg-yellow-400 hover:bg-yellow-500 text-black font-semibold px-5 py-2 rounded-lg shadow-md transition duration-300"
+              className="bg-yellow-400 hover:bg-yellow-500 text-black font-semibold px-5 py-2 rounded-lg shadow-md transition duration-300 flex items-center gap-2"
             >
-              🔁 दूसरा परिणाम देखें
+              <FaSyncAlt />
+              दूसरा परिणाम देखें
             </button>
             <button
               onClick={handleDownloadPDF}
               className="bg-green-600 hover:bg-green-700 text-white font-semibold px-5 py-2 rounded-lg shadow-md transition duration-300 flex items-center gap-2"
             >
-              <FaDownload className="text-lg" />
+              <FaDownload />
               PDF निकालें
             </button>
           </div>
