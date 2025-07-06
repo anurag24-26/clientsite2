@@ -44,6 +44,9 @@ app.get("/admission", (req, res) => {
 app.get("/result", (req, res) => {
   res.sendFile(path.join(__dirname, "views", "result.html"));
 });
+app.get("/home", (req, res) => {
+  res.sendFile(path.join(__dirname, "views", "home.html"));
+});
 // Serve admitted students view
 app.get("/students", (req, res) => {
   res.sendFile(path.join(__dirname, "views", "students.html"));
