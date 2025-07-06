@@ -148,7 +148,7 @@ export default function Result() {
           <div className="mb-6 text-center">
             <img src={logo} alt="Logo" className="h-20 mx-auto mb-2" />
             <h1 className="text-3xl font-bold text-red-600">
-              Saraswati Coaching Result
+              Saraswati Coaching Center
             </h1>
 
             <p className="text-gray-700 text-sm">
@@ -173,8 +173,13 @@ export default function Result() {
 
           <hr className="my-3" />
 
-          <div className="overflow-auto">
-            <table className="w-full border border-gray-300 text-sm text-center">
+          <div className="w-full overflow-x-auto">
+            {/* Scroll hint for small devices */}
+            <div className="text-xs text-gray-500 mb-2 sm:hidden text-center">
+              👉 टेबल को देखने के लिए स्क्रॉल करें
+            </div>
+
+            <table className="min-w-[600px] w-full border border-gray-300 text-sm text-center rounded-md overflow-hidden shadow-md">
               <thead className="bg-yellow-200">
                 <tr>
                   <th className="border px-2 py-1">माह</th>
