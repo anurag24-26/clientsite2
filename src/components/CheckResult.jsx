@@ -80,7 +80,6 @@ export default function Result() {
           Saraswati Coaching Result
         </h1>
       </div>
-
       {!result && (
         <form
           onSubmit={handleSubmit}
@@ -144,14 +143,12 @@ export default function Result() {
           </button>
         </form>
       )}
-
       {error && (
         <div className="mt-6 bg-red-100 text-red-700 p-4 rounded-lg shadow flex items-center gap-2 max-w-md w-full">
           <FaTimesCircle />
           <span>{error}</span>
         </div>
       )}
-
       {result && (
         <div className="mt-8 bg-white border-4 border-red-300 p-8 rounded-xl shadow-lg max-w-xl w-full text-left print:border-none print:shadow-none">
           <div className="mb-6 text-center">
@@ -162,14 +159,11 @@ export default function Result() {
               बड़गो, बरईपार, गोरखपुर - 273402 <br />
               (बड़ोदा बैंक के सामने, बड़गो)
             </p>
-            <p className="text-gray-800 mt-2 font-semibold">
-              Unit Test - June 2025
-            </p>
           </div>
 
-          <div className="flex items-center gap-2 mb-3 text-green-700">
-            <FaCheckCircle className="text-2xl" />
-            <h2 className="text-xl font-bold">छात्र का परिणाम</h2>
+          <div className="mb-4 text-green-700 flex items-center gap-2">
+            <FaCheckCircle className="text-xl" />
+            <h2 className="text-lg font-bold">छात्र का परिणाम</h2>
           </div>
           <p>
             <strong>नाम:</strong> {result.name}
@@ -183,36 +177,57 @@ export default function Result() {
 
           <hr className="my-3" />
 
-          <div className="space-y-2">
-            {result.marks.physics > 0 && (
-              <p>
-                <strong>भौतिकी:</strong> {result.marks.physics}/
-                {result.maxMarks.physics}
-              </p>
-            )}
-            {result.marks.math > 0 && (
-              <p>
-                <strong>गणित:</strong> {result.marks.math}/
-                {result.maxMarks.math}
-              </p>
-            )}
-            {result.marks.english > 0 && (
-              <p>
-                <strong>अंग्रेजी:</strong> {result.marks.english}/
-                {result.maxMarks.english}
-              </p>
-            )}
-            {result.marks.hindi > 0 && (
-              <p>
-                <strong>हिंदी:</strong> {result.marks.hindi}/
-                {result.maxMarks.hindi}
-              </p>
-            )}
-            <hr className="my-2" />
-            <p>
-              <strong>कुल अंक:</strong> {calculateTotal(result.marks)}/
-              {calculateMax(result.maxMarks)}
-            </p>
+          <div className="overflow-auto">
+            <table className="w-full border border-gray-300 text-sm text-center">
+              <thead className="bg-yellow-200">
+                <tr>
+                  <th className="border px-2 py-1">माह</th>
+                  <th className="border px-2 py-1">गणित</th>
+                  <th className="border px-2 py-1">अंग्रेजी</th>
+                  <th className="border px-2 py-1">हिंदी</th>
+                  <th className="border px-2 py-1">विज्ञान</th>
+                  <th className="border px-2 py-1">सामाजिक विज्ञान</th>
+                  <th className="border px-2 py-1">कुल अंक</th>
+                </tr>
+              </thead>
+              <tbody>
+                {result.results?.map((r, index) => {
+                  const total = Object.values(r.marks).reduce(
+                    (a, b) => a + b,
+                    0
+                  );
+                  const max = Object.values(r.maxMarks).reduce(
+                    (a, b) => a + b,
+                    0
+                  );
+                  return (
+                    <tr key={index} className="hover:bg-gray-50">
+                      <td className="border px-2 py-1 font-semibold text-red-600">
+                        {r.testMonth}
+                      </td>
+                      <td className="border px-2 py-1">
+                        {r.marks.math}/{r.maxMarks.math}
+                      </td>
+                      <td className="border px-2 py-1">
+                        {r.marks.english}/{r.maxMarks.english}
+                      </td>
+                      <td className="border px-2 py-1">
+                        {r.marks.hindi}/{r.maxMarks.hindi}
+                      </td>
+                      <td className="border px-2 py-1">
+                        {r.marks.science}/{r.maxMarks.science}
+                      </td>
+                      <td className="border px-2 py-1">
+                        {r.marks.sst}/{r.maxMarks.sst}
+                      </td>
+                      <td className="border px-2 py-1 font-bold text-green-700">
+                        {total}/{max}
+                      </td>
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </table>
           </div>
 
           <div className="mt-8 flex flex-col sm:flex-row justify-center sm:justify-between items-center gap-4 print:hidden">
