@@ -1,5 +1,5 @@
 import { Routes, Route } from "react-router-dom";
-
+import { Analytics } from "@vercel/analytics/react";
 import Navbar from "./components/Navbar";
 import HomePage from "./pages/HomePage";
 import About from "./pages/About";
@@ -11,6 +11,7 @@ import Results from "./pages/Results";
 import Gallery from "./pages/Gallery";
 import Footer from "./components/Footer";
 import Popup from "./components/Popup";
+
 function App() {
   return (
     <>
@@ -27,6 +28,7 @@ function App() {
       </Routes>
       <Popup />
       <Footer />
+      <Analytics /> // Vercel Analytics for tracking user interactions
     </>
   );
 }
