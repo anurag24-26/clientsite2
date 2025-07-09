@@ -11,12 +11,12 @@ export default function About() {
         initial={{ opacity: 0, x: flip ? 80 : -80 }}
         whileInView={{ opacity: 1, x: 0 }}
         transition={{ duration: 0.7 }}
-        className={`${bg} rounded-2xl shadow-md p-6 sm:p-10 flex flex-col ${
+        className={`${bg} rounded-2xl shadow-lg p-6 sm:p-10 flex flex-col ${
           flip ? "md:flex-row-reverse" : "md:flex-row"
         } gap-8 items-center`}
       >
         <div className="flex-1">
-          <h3 className="text-2xl sm:text-3xl font-semibold text-orange-600 mb-4">
+          <h3 className="text-2xl sm:text-3xl font-semibold text-indigo-600 mb-4">
             {title}
           </h3>
           <div className="text-base sm:text-lg text-gray-700 leading-relaxed">
@@ -24,11 +24,14 @@ export default function About() {
           </div>
         </div>
         {image && (
-          <div className="flex-1 flex justify-center items-center">
-            <img
+          <div className="flex-1 flex justify-center items-center w-full">
+            <motion.img
               src={image}
               alt={title}
-              className="w-full max-w-[300px] rounded-xl shadow-lg object-cover"
+              className="w-full max-w-[250px] sm:max-w-[300px] h-auto rounded-xl shadow-md object-cover"
+              initial={{ opacity: 0, scale: 0.9 }}
+              whileInView={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.6 }}
             />
           </div>
         )}
@@ -37,13 +40,13 @@ export default function About() {
   }
 
   return (
-    <section className="text-gray-800 bg-amber-100 max-w-screen-xl mx-auto px-4 mt-10 sm:px-6 lg:px-12 py-16 sm:py-20 space-y-16 sm:space-y-24">
+    <section className="text-gray-800 bg-gradient-to-br from-blue-50 to-gray-100 max-w-screen-xl mx-auto px-4 mt-10 sm:px-6 lg:px-12 py-16 sm:py-20 space-y-16 sm:space-y-24">
       {/* Heading */}
       <motion.h2
         initial={{ opacity: 0, y: -40 }}
         whileInView={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6 }}
-        className="text-4xl sm:text-5xl font-extrabold text-center  text-orange-600 tracking-wide"
+        className="text-4xl sm:text-5xl font-extrabold text-center text-indigo-700 tracking-wide"
       >
         हमारे बारे में
       </motion.h2>
@@ -55,15 +58,18 @@ export default function About() {
         transition={{ duration: 0.7 }}
         className="flex flex-col md:flex-row items-center gap-8 sm:gap-10 p-6 sm:p-10 bg-white rounded-3xl shadow-xl"
       >
-        <div className="flex-1 flex justify-center">
-          <img
+        <div className="flex-1 flex justify-center items-center w-full">
+          <motion.img
             src={Director}
             alt="Shubham Pandey"
-            className="w-48 sm:w-72 h-48 sm:h-72 rounded-3xl object-cover border-[2px] border-orange-500 shadow-xl"
+            className="w-full max-w-[250px] sm:max-w-[300px] h-auto rounded-3xl object-cover border-[3px] border-indigo-500 shadow-lg"
+            initial={{ opacity: 0, scale: 0.9 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.6 }}
           />
         </div>
         <div className="flex-1">
-          <h3 className="text-2xl sm:text-4xl font-bold text-orange-600 mb-4">
+          <h3 className="text-2xl sm:text-4xl font-bold text-indigo-700 mb-4">
             निर्देशक का संदेश - शुभम पांडेय,{" "}
             <span className="text-gray-700 text-xl sm:text-2xl">
               B.Sc., B.Ed.
@@ -85,7 +91,7 @@ export default function About() {
       {/* Sections */}
       <AnimatedSection
         title="हमारा उद्देश्य और मूल्य"
-        bg="bg-pink-50"
+        bg="bg-blue-100"
         flip={false}
         image={MissionImg}
       >
@@ -99,7 +105,7 @@ export default function About() {
 
       <AnimatedSection
         title="हमें क्यों चुनें?"
-        bg="bg-orange-50"
+        bg="bg-white"
         flip={true}
         image={WhyUsImg}
       >
@@ -115,7 +121,7 @@ export default function About() {
 
       <AnimatedSection
         title="हमारी उपलब्धियाँ"
-        bg="bg-pink-100"
+        bg="bg-indigo-50"
         flip={false}
         image={AchievementsImg}
       >
@@ -125,12 +131,12 @@ export default function About() {
         </ul>
       </AnimatedSection>
 
-      {/* CTA */}
+      {/* CTA Section */}
       <motion.div
         initial={{ opacity: 0, y: 50 }}
         whileInView={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6 }}
-        className="bg-orange-600 text-white rounded-2xl shadow-xl p-8 sm:p-10 text-center"
+        className="bg-indigo-600 text-white rounded-2xl shadow-xl p-8 sm:p-10 text-center"
       >
         <h4 className="text-2xl sm:text-3xl font-bold mb-4">
           हमसे जुड़ें और अपने भविष्य को आकार दें
@@ -138,7 +144,7 @@ export default function About() {
         <p className="text-base sm:text-lg mb-6">
           आज ही एडमिशन लें और बेहतर शिक्षा की ओर कदम बढ़ाएं।
         </p>
-        <button className="bg-white text-orange-700 px-6 sm:px-8 py-2 sm:py-3 rounded-full font-semibold hover:bg-gray-100 transition duration-300">
+        <button className="bg-white text-indigo-700 px-6 sm:px-8 py-2 sm:py-3 rounded-full font-semibold hover:bg-gray-100 transition duration-300">
           एडमिशन के लिए संपर्क करें
         </button>
       </motion.div>

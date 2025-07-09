@@ -11,7 +11,7 @@ import {
 export default function Hero() {
   return (
     <section className="relative text-center py-16 px-4 bg-gradient-to-br from-yellow-100 via-pink-100 to-blue-100 overflow-hidden">
-      {/* Decorative blobs */}
+      {/* Decorative Blobs */}
       <div className="absolute -top-10 -left-10 w-72 h-72 bg-pink-200 rounded-full opacity-30 blur-3xl animate-pulse z-0"></div>
       <div className="absolute -bottom-10 -right-10 w-72 h-72 bg-blue-300 rounded-full opacity-30 blur-3xl animate-pulse z-0"></div>
 
@@ -34,7 +34,7 @@ export default function Hero() {
         initial={{ opacity: 0, y: -30 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.2, duration: 0.6 }}
-        className="text-4xl md:text-5xl font-black text-red-600 mb-4 relative z-10"
+        className="text-4xl md:text-5xl font-extrabold text-red-600 mb-3 leading-snug tracking-wide relative z-10"
       >
         सरस्वती कोचिंग सेंटर
       </motion.h1>
@@ -44,7 +44,7 @@ export default function Hero() {
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.4, duration: 0.6 }}
-        className="text-xl md:text-2xl text-gray-700 font-semibold italic mb-4 relative z-10"
+        className="text-lg sm:text-xl md:text-2xl text-gray-800 font-medium italic mb-3 relative z-10"
       >
         शिक्षा का नया दृष्टिकोण, सफलता की नई राह ✨
       </motion.p>
@@ -54,7 +54,7 @@ export default function Hero() {
         initial={{ opacity: 0, y: 10 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.6, duration: 0.5 }}
-        className="text-lg text-gray-600 mb-2 flex items-center justify-center gap-2 relative z-10"
+        className="text-sm sm:text-base text-gray-700 mb-1 flex items-center justify-center gap-2 relative z-10"
       >
         <FaMapMarkerAlt className="text-red-500" />
         स्थान: बड़गो, बरईपार (बड़ौदा बैंक के सामने)
@@ -65,36 +65,41 @@ export default function Hero() {
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 0.8, duration: 0.5 }}
-        className="text-base text-gray-800 font-medium flex items-center justify-center gap-2 relative z-10"
+        className="text-sm sm:text-base text-gray-800 font-medium flex items-center justify-center gap-2 relative z-10"
       >
         <FaPhoneAlt className="text-blue-700" />
         संपर्क करें:{" "}
-        <span className="text-blue-700 font-semibold">+917379351042</span>
+        <span className="text-blue-700 font-bold tracking-wide">
+          +917379351042
+        </span>
       </motion.p>
 
-      {/* Buttons */}
+      {/* CTA Buttons */}
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 1, duration: 0.6 }}
-        className="mt-6 flex justify-center gap-4 flex-wrap relative z-10"
+        className="mt-8 flex flex-col sm:flex-row justify-center gap-4 relative z-10"
       >
-        <a
-          href="#contact"
-          className="bg-red-500 hover:bg-red-600 text-white px-6 py-2 rounded-full font-semibold shadow-lg transition duration-300 flex items-center gap-2"
+        <Link
+          to="/contact"
+          className="bg-red-500 hover:bg-red-600 text-white px-6 py-2 rounded-full font-semibold shadow-lg transition duration-300 flex items-center justify-center gap-2 text-sm sm:text-base"
         >
           <FaPhoneAlt /> संपर्क करें
-        </a>
-        <a
-          href="#courses"
-          className="bg-blue-500 hover:bg-blue-600 text-white px-6 py-2 rounded-full font-semibold shadow-lg transition duration-300 flex items-center gap-2"
+        </Link>
+
+        <Link
+          to="/courses"
+          className="bg-blue-500 hover:bg-blue-600 text-white px-6 py-2 rounded-full font-semibold shadow-lg transition duration-300 flex items-center justify-center gap-2 text-sm sm:text-base"
         >
           <FaBookOpen /> कोर्स देखें
-        </a>
-        <Link to="/checkresult">
-          <button className="bg-green-600 hover:bg-green-700 text-white px-6 py-2 rounded-full font-semibold shadow-lg transition duration-300 flex items-center gap-2 mt-2 sm:mt-0">
-            <FaCheckCircle /> अपना रिज़ल्ट देखें
-          </button>
+        </Link>
+
+        <Link
+          to="/checkresult"
+          className="bg-green-600 hover:bg-green-700 text-white px-6 py-2 rounded-full font-semibold shadow-lg transition duration-300 flex items-center justify-center gap-2 text-sm sm:text-base"
+        >
+          <FaCheckCircle /> अपना रिज़ल्ट देखें
         </Link>
       </motion.div>
     </section>

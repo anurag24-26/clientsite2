@@ -27,7 +27,12 @@ const Navbar = () => {
             alt="Logo"
             className="w-10 h-10 rounded-full border-2 border-red-500 shadow-md"
           />
-          <span className="text-xl font-extrabold text-red-600 tracking-wide hidden sm:inline">
+          {/* Visible on desktop */}
+          <span className="text-xl font-extrabold text-red-600 tracking-wide hidden md:inline">
+            सरस्वती कोचिंग सेंटर
+          </span>
+          {/* Visible on mobile only */}
+          <span className="text-sm font-semibold text-red-600 md:hidden">
             सरस्वती कोचिंग सेंटर
           </span>
         </Link>
