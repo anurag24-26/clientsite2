@@ -27,7 +27,7 @@ export default function Footer() {
         </div>
 
         {/* Quick Links */}
-        <div>
+        <div className="text-center sm:text-left flex flex-col items-center sm:items-start">
           <h4 className="text-xl font-semibold text-blue-700 mb-4">
             त्वरित लिंक
           </h4>
